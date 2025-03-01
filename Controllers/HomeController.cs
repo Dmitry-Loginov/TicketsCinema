@@ -14,8 +14,10 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var movies = db.Movies.Take(3).ToList(); // Берем 3 ближайших фильма
+        return View(movies);
     }
+
 
     public IActionResult Privacy()
     {

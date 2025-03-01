@@ -1,8 +1,34 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model List<TicketsCinema.Models.Movie>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<style>
+    body {
+        background-image: url('/images/Back main 2.jpg'); /* Замените на имя вашего файла */
+        background-size: cover; /* Для охвата всего экрана */
+        background-position: center; /* Центрирование изображения */
+        background-repeat: no-repeat; /* Изображение не повторяется */
+    }
+</style>
+
+<body>
+    <div class="container mt-4">
+        <h1 class="text-center text-white">Ближайшие показы</h1>
+        <div class="row">
+            @foreach (var movie in Model)
+            {
+                <div class="movie">
+                    <h2>@movie.Title</h2>
+                    <p>@movie.ShortDesc</p>
+                    <p>@movie.DateTime.Value.ToString("MMMM dd, yyyy HH:mm")</p>
+                    <a href="#">Buy Ticket</a>
+                </div>
+            }
+
+        </div>
+        <div class="text-center">
+            <a href="@Url.Action("Index", "Schedule")" class="btn btn-outline-light text-white">Смотреть больше</a>
+        </div>
+    </div>
+</body>
