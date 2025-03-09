@@ -8,6 +8,61 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TicketsCinema.styles.css" asp-append-version="true" />
 </head>
+
+<style>
+    body {
+        background-image: url('/images/Back main 2.jpg'); /* Замените на имя вашего файла */
+        background-size: cover; /* Для охвата всего экрана */
+        background-position: center; /* Центрирование изображения */
+        background-repeat: no-repeat; /* Изображение не повторяется */
+    }
+
+    nav {
+        color: white; /* Цвет текста (можно изменить) */
+    }
+
+    main {
+        color: white; /* Цвет текста (можно изменить) */
+    }
+
+    a{
+        color: white; /* Цвет текста (можно изменить) */
+    }
+
+    li {
+        color: white; /* Цвет текста (можно изменить) */
+    }
+
+    .transparent-input {
+        background-color: transparent; /* Прозрачный фон */
+        border: 2px solid white; /* Белая обводка */
+        color: white; /* Цвет текста (можно изменить) */
+    }
+
+    .transparent-input:focus {
+        background-color: transparent; /* Прозрачный фон */
+        border: 2px solid white; /* Белая обводка */
+        color: white; /* Цвет текста (можно изменить) */
+        box-shadow: none;
+    }
+
+    .transparent-input:hover {
+        background-color: transparent; /* Прозрачный фон */
+        border: 2px solid white; /* Белая обводка */
+        color: white; /* Цвет текста (можно изменить) */
+        box-shadow: none;
+    }
+
+    .transparent-input::placeholder {
+        color: rgba(255, 255, 255, 0.7); /* Цвет плейсхолдера */
+    }
+
+    nav .navbar-nav li a {
+        color: white !important;
+    }
+
+</style>
+
 <body>
 
     <header>
@@ -20,7 +75,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" asp-controller="Schedule" asp-action="Index">Расписание</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register">Регистрация</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="Create">Регистрация</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Войти</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Schedule" asp-action="Index">Купить билет</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Tickets" asp-action="Orders">Профиль</a></li>
