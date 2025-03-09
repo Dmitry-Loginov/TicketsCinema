@@ -7,4 +7,5 @@ $(document).ready(function () {
     $('button').addClass('btn-outline-light text-white');
     $('input').addClass('transparent-input .transparent-input::placeholder');
     $('a').addClass('link-light');
+    $('table').addClass('table table-striped table-dark');
 });
