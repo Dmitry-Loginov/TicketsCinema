@@ -1,20 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace TicketsCinema.Models
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : IdentityDbContext<User>
     {
-        public DbSet<User> Users { get; set; } = null!;
         public DbSet<Seat> Seats { get; set; } = null!;
         public DbSet<Movie> Movies { get; set; } = null!;
         public DbSet<BookedSeat> BookedSeats { get; set; } = null!;
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             // Настройка отношений для BookedSeat
             modelBuilder.Entity<BookedSeat>()
                 .HasKey(bs => bs.Id); // Уникальный ключ для BookedSeat

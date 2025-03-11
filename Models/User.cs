@@ -1,11 +1,12 @@
-﻿namespace TicketsCinema.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace TicketsCinema.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
         public string? Name { get; set; }
-        public string? Login { get; set; }
-        public string? Password { get; set; }
+        //public string? Login { get; set; }
+        //public string? Password { get; set; }
         public double Budget { get; set; }
 
         public ICollection<BookedSeat> BookedSeats { get; set; } = new LinkedList<BookedSeat>();
