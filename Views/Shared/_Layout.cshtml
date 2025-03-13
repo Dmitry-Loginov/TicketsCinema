@@ -11,54 +11,54 @@
 
 <style>
     body {
-        background-image: url('/images/Back main 2.jpg'); /* Замените на имя вашего файла */
-        background-size: cover; /* Для охвата всего экрана */
-        background-position: center; /* Центрирование изображения */
-        background-repeat: no-repeat; /* Изображение не повторяется */
+    background-image: url('/images/Back main 2.jpg'); /* Замените на имя вашего файла */
+    background-size: cover; /* Для охвата всего экрана */
+    background-position: center; /* Центрирование изображения */
+    background-repeat: no-repeat; /* Изображение не повторяется */
     }
 
     nav {
-        color: white; /* Цвет текста (можно изменить) */
+    color: white; /* Цвет текста (можно изменить) */
     }
 
     main {
-        color: white; /* Цвет текста (можно изменить) */
+    color: white; /* Цвет текста (можно изменить) */
     }
 
     a{
-        color: white; /* Цвет текста (можно изменить) */
+    color: white; /* Цвет текста (можно изменить) */
     }
 
     li {
-        color: white; /* Цвет текста (можно изменить) */
+    color: white; /* Цвет текста (можно изменить) */
     }
 
     .transparent-input {
-        background-color: transparent; /* Прозрачный фон */
-        border: 2px solid white; /* Белая обводка */
-        color: white; /* Цвет текста (можно изменить) */
+    background-color: transparent; /* Прозрачный фон */
+    border: 2px solid white; /* Белая обводка */
+    color: white; /* Цвет текста (можно изменить) */
     }
 
     .transparent-input:focus {
-        background-color: transparent; /* Прозрачный фон */
-        border: 2px solid white; /* Белая обводка */
-        color: white; /* Цвет текста (можно изменить) */
-        box-shadow: none;
+    background-color: transparent; /* Прозрачный фон */
+    border: 2px solid white; /* Белая обводка */
+    color: white; /* Цвет текста (можно изменить) */
+    box-shadow: none;
     }
 
     .transparent-input:hover {
-        background-color: transparent; /* Прозрачный фон */
-        border: 2px solid white; /* Белая обводка */
-        color: white; /* Цвет текста (можно изменить) */
-        box-shadow: none;
+    background-color: transparent; /* Прозрачный фон */
+    border: 2px solid white; /* Белая обводка */
+    color: white; /* Цвет текста (можно изменить) */
+    box-shadow: none;
     }
 
     .transparent-input::placeholder {
-        color: rgba(255, 255, 255, 0.7); /* Цвет плейсхолдера */
+    color: rgba(255, 255, 255, 0.7); /* Цвет плейсхолдера */
     }
 
     nav .navbar-nav li a {
-        color: white !important;
+    color: white !important;
     }
 
 </style>
@@ -75,11 +75,21 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" asp-controller="Schedule" asp-action="Index">Расписание</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register">Регистрация</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Войти</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Schedule" asp-action="Index">Купить билет</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="Details">Профиль</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Logout">Выход</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Details">Профиль</a></li>
+                            <li class="nav-item">
+                                <form method="post" asp-controller="Account" asp-action="Logout" style="display:inline;">
+                                    <input type="submit" value="Выход" class="nav-link" style="border: none; background: none; color: inherit; text-decoration: none;" />
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Register">Регистрация</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Login">Войти</a></li>
+                        }                                              
                     </ul>
                 </div>
             </div>
