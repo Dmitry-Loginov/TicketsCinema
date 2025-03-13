@@ -13,7 +13,16 @@ string connection = builder.Configuration.GetConnectionString("DefaultConnection
 // добавляем контекст ApplicationContext в качестве сервиса в приложение
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
 
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    // Снять ограничения на пароль
+    options.Password.RequireDigit = false; // Не требовать цифры
+    options.Password.RequireLowercase = false; // Не требовать строчные буквы
+    options.Password.RequireUppercase = false; // Не требовать заглавные буквы
+    options.Password.RequireNonAlphanumeric = false; // Не требовать специальные символы
+    options.Password.RequiredLength = 1; // Минимальная длина пароля
+    options.Password.RequiredUniqueChars = 0; // Уникальные символы
+})
     .AddEntityFrameworkStores<ApplicationContext>();
 
 builder.Services.AddControllersWithViews();
