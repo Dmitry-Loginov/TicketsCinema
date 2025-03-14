@@ -12,5 +12,7 @@
 
         public int SeatId { get; set; }
         public Seat Seat { get; set; } = null!;
+
+        public double PriceBooked { get; set; }
     }
 }
