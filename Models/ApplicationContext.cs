@@ -38,6 +38,23 @@ namespace TicketsCinema.Models
                 .WithMany(s => s.BookedSeats)
                 .HasForeignKey(bs => bs.SeatId)
                 .OnDelete(DeleteBehavior.Cascade); // Опционально: поведение при удалении
+
+            modelBuilder.Entity<Seat>()
+                .Property(s => s.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Seat>().HasData(GenerateSeats());
+
+        }
+
+        private static Seat[] GenerateSeats()
+        {
+            var seats = new Seat[200];
+            for (int i = 0; i < 200; i++)
+            {
+                seats[i] = new Seat { Id = i + 1 }; // Ид от 1 до 200
+            }
+            return seats;
         }
     }
 }
