@@ -76,6 +76,10 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item"><a class="nav-link" asp-controller="Schedule" asp-action="Index">Расписание</a></li>
                         <li class="nav-item"><a class="nav-link" asp-controller="Schedule" asp-action="Index">Купить билет</a></li>
+                        @if (User.IsInRole("admin"))
+                        {
+                            <li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="Index">Список пользователей</a></li>
+                        }
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item"><a class="nav-link" asp-controller="Account" asp-action="Details">Профиль</a></li>
