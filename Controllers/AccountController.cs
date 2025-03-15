@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using TicketsCinema.ViewModels;
 using TicketsCinema.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TicketsCinema.Controllers
 {
@@ -10,11 +12,13 @@ namespace TicketsCinema.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ApplicationContext _context;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, ApplicationContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
         }
         [HttpGet]
         public IActionResult Register()
@@ -69,6 +73,35 @@ namespace TicketsCinema.Controllers
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
+            return View(model);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Details()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var bookedSeats = await _context.BookedSeats
+                .Include(bs => bs.Movie)
+                .Include(bs => bs.Seat)
+                .Where(bs => bs.UserId == user.Id)
+                .ToListAsync();
+
+            var pastTickets = bookedSeats.Where(bs => bs.Movie.DateTime < DateTime.Now).ToList();
+            var upcomingTickets = bookedSeats.Where(bs => bs.Movie.DateTime >= DateTime.Now).ToList();
+
+            var model = new DetailViewModel
+            {
+                UserName = user.UserName,
+                Budget = user.Budget,
+                PastTickets = pastTickets,
+                UpcomingTickets = upcomingTickets
+            };
+
             return View(model);
         }
 

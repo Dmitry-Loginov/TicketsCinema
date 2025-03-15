@@ -1,0 +1,69 @@
+﻿@model TicketsCinema.ViewModels.DetailViewModel;
+
+@{
+    ViewData["Title"] = "Профиль пользователя";
+}
+
+<h2>Профиль пользователя</h2>
+
+<div class="card text-white bg-dark mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Model.UserName</h5>
+        <p>Email: @Model.UserName</p>
+        <p>Бюджет: @Model.Budget.ToString("C")</p>
+    </div>
+</div>
+
+<h3>Ваши билеты</h3>
+
+<div class="accordion text-white bg-dark" id="ticketsAccordion">
+    <div class="accordion-item text-white bg-dark">
+        <h2 class="accordion-header" id="headingPast">
+            <button class="accordion-button collapsed bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePast">
+                Архивные билеты
+            </button>
+        </h2>
+        <div id="collapsePast" class="accordion-collapse collapse" aria-labelledby="headingPast" data-bs-parent="#ticketsAccordion">
+            <div class="accordion-body">
+                @if (Model.PastTickets.Any())
+                {
+                    <ul>
+                        @foreach (var ticket in Model.PastTickets)
+                        {
+                            <li>@ticket.Movie.Title - @ticket.Movie.DateTime.Value.ToString("g")</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>Архивных билетов нет.</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion-item text-white bg-dark">
+        <h2 class="accordion-header" id="headingUpcoming">
+            <button class="accordion-button bg-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseUpcoming">
+                Предстоящие билеты
+            </button>
+        </h2>
+        <div id="collapseUpcoming" class="accordion-collapse collapse show" aria-labelledby="headingUpcoming" data-bs-parent="#ticketsAccordion">
+            <div class="accordion-body">
+                @if (Model.UpcomingTickets.Any())
+                {
+                    <ul>
+                        @foreach (var ticket in Model.UpcomingTickets)
+                        {
+                            <li>@ticket.Movie.Title - @ticket.Movie.DateTime.Value.ToString("g")</li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>Нет предстоящих билетов.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
