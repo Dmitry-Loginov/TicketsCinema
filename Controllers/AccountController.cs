@@ -26,7 +26,7 @@ namespace TicketsCinema.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User { UserName = model.Name };
+                User user = new User { UserName = model.UserName };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -59,7 +59,7 @@ namespace TicketsCinema.Controllers
             if (ModelState.IsValid)
             {
                 var result =
-                    await _signInManager.PasswordSignInAsync(model.Name, model.Password, model.RememberMe, false);
+                    await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");

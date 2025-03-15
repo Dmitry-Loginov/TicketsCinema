@@ -6,7 +6,7 @@ namespace TicketsCinema.ViewModels
     {
         [Required]
         [Display(Name = "Name")]
-        public string Name { get; set; }
+        public string UserName { get; set; }
 
 
         [Required]
