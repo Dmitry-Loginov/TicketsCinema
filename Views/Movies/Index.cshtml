@@ -1,0 +1,13 @@
+﻿@model IEnumerable<TicketsCinema.Models.Movie>
+
+@{
+    ViewData["Title"] = "Список фильмов";
+}
+
+<div class="container mt-5">
+    <h2 class="text-white">Список фильмов</h2>
+    <div class="row">
+        @await Html.PartialAsync("_MoviesGrid")
+    </div>
+    <a href="@Url.Action("Create", "Movies")" class="btn btn-primary">Добавить новый фильм</a>
+</div>

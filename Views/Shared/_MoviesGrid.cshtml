@@ -1,0 +1,18 @@
+﻿@model List<TicketsCinema.Models.Movie>
+
+@foreach (var movie in Model)
+{
+    <div class="col-md-4 mb-4">
+        <div class="card text-white bg-dark">
+            <img src="@movie.PreviewUrl" class="card-img-top" alt="@movie.Title" />
+            <div class="card-body">
+                <h5 class="card-title">@movie.Title</h5>
+                @* <p class="card-text">@movie.ShortDesc</p> *@
+                <p><strong>Дата и время:</strong> @movie.DateTime?.ToString("g")</p>
+                <p><strong>Цена:</strong> @movie.Price.ToString("C")</p>
+                <a href="@Url.Action("Details", "Movies", new { id = movie.Id })" class="btn btn-outline-secondary">Подробнее</a>
+                <a href="@Url.Action("Edit", "Movies", new { id = movie.Id })" class="btn btn-outline-secondary">Редактировать</a>
+            </div>
+        </div>
+    </div>
+}

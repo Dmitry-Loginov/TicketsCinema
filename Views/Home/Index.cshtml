@@ -7,19 +7,10 @@
     <div class="container mt-4">
         <h1 class="text-center text-white">Ближайшие показы</h1>
         <div class="row">
-            @foreach (var movie in Model)
-            {
-                <div class="movie">
-                    <h2>@movie.Title</h2>
-                    <p>@movie.ShortDesc</p>
-                    <p>@movie.DateTime.Value.ToString("MMMM dd, yyyy HH:mm")</p>
-                    <a href="#">Buy Ticket</a>
-                </div>
-            }
-
+            @await Html.PartialAsync("_MoviesGrid")
         </div>
         <div class="text-center">
-            <a href="@Url.Action("Index", "Schedule")" class="btn btn-outline-light text-white">Смотреть больше</a>
+            <a href="@Url.Action("Index", "Movies")" class="btn btn-outline-light text-white">Смотреть больше</a>
         </div>
     </div>
 </body>

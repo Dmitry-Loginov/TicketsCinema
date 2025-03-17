@@ -1,0 +1,22 @@
+﻿@model TicketsCinema.ViewModels.MovieDetailViewModel
+
+@{
+    ViewData["Title"] = "Подробности фильма";
+}
+
+<div class="container mt-5">
+    <h2 class="text-white">@Model.Title</h2>
+    <div class="card text-white bg-dark mb-3">
+        <div class="card-body">
+            @if (!string.IsNullOrEmpty(Model.PreviewUrl))
+            {
+                <img src="@Model.PreviewUrl" class="img-fluid mb-2" alt="@Model.Title" />
+            }
+            <h5 class="card-title">Описание</h5>
+            <p>@Model.ShortDesc</p>
+            <p><strong>Дата и время:</strong> @Model.DateTime?.ToString("g")</p>
+            <p><strong>Цена:</strong> @Model.Price.ToString("C")</p>
+        </div>
+    </div>
+    <a href="@Url.Action("Edit", "Movies", new { id = Model.Id })" class="btn btn-secondary">Редактировать</a>
+</div>

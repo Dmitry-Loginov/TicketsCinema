@@ -1,0 +1,33 @@
+﻿@model TicketsCinema.ViewModels.MovieEditViewModel
+
+@{
+    ViewData["Title"] = "Редактировать фильм";
+}
+
+<div class="container mt-5">
+    <h2 class="text-white">Редактировать фильм</h2>
+    <form method="post" asp-action="Edit">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <div class="mb-3">
+            <label class="form-label text-white" for="Title">Название фильма</label>
+            <input type="text" class="form-control" id="Title" name="Title" value="@Model.Title" required />
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-white" for="PreviewUrl">URL превью</label>
+            <input type="url" class="form-control" id="PreviewUrl" name="PreviewUrl" value="@Model.PreviewUrl" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-white" for="ShortDesc">Краткое описание</label>
+            <textarea class="form-control" id="ShortDesc" name="ShortDesc">@Model.ShortDesc</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-white" for="DateTime">Дата и время</label>
+            <input type="datetime-local" class="form-control" id="DateTime" name="DateTime" value="@Model.DateTime?.ToString("yyyy-MM-ddTHH:mm")" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-white" for="Price">Цена</label>
+            <input type="number" step="0.01" class="form-control" id="Price" name="Price" value="@Model.Price" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+</div>
