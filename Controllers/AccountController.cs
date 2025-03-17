@@ -77,9 +77,24 @@ namespace TicketsCinema.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> Details(string? id = null)
         {
-            var user = await _userManager.GetUserAsync(User);
+            User user;
+
+            if (id == null) // Если id не передан, получаем текущего пользователя
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
+            else // Если id передан, проверяем роль
+            {
+                if (!User.IsInRole("admin")) // Проверяем, является ли пользователь админом
+                {
+                    return Forbid(); // Запрещаем доступ
+                }
+
+                user = await _userManager.FindByIdAsync(id);
+            }
+
             if (user == null)
             {
                 return NotFound();
