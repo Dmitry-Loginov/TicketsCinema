@@ -11,7 +11,10 @@
                 <p><strong>Дата и время:</strong> @movie.DateTime?.ToString("g")</p>
                 <p><strong>Цена:</strong> @movie.Price.ToString("C")</p>
                 <a href="@Url.Action("Details", "Movies", new { id = movie.Id })" class="btn btn-outline-secondary">Подробнее</a>
-                <a href="@Url.Action("Edit", "Movies", new { id = movie.Id })" class="btn btn-outline-secondary">Редактировать</a>
+                @if(User.IsInRole("admin"))
+                {
+                    <a href="@Url.Action("Edit", "Movies", new { id = movie.Id })" class="btn btn-outline-secondary">Редактировать</a>
+                }
             </div>
         </div>
     </div>

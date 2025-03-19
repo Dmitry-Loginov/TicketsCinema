@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TicketsCinema.Models;
 using TicketsCinema.ViewModels;
@@ -39,6 +40,7 @@ namespace TicketsCinema.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
@@ -65,6 +67,7 @@ namespace TicketsCinema.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var movie = await _context.Movies.FindAsync(id);
@@ -72,6 +75,7 @@ namespace TicketsCinema.Controllers
 
             var model = new MovieEditViewModel
             {
+                Id = movie.Id,
                 Title = movie.Title,
                 ShortDesc = movie.ShortDesc,
                 PreviewUrl = movie.PreviewUrl,
@@ -107,6 +111,7 @@ namespace TicketsCinema.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var movie = await _context.Movies.FindAsync(id);

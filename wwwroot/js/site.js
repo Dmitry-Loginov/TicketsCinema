@@ -3,8 +3,9 @@
 
 // Write your JavaScript code.
 $(document).ready(function () {
-    $('label').addClass('btn-outline-light text-white');
-    $('button').addClass('btn-outline-light text-white');
+    $('label').addClass('text-white');
+    $('button').addClass('text-white');
+    $('textarea').addClass('transparent-input .transparent-input::placeholder');
     $('input').addClass('transparent-input .transparent-input::placeholder');
     $('a').addClass('link-light');
     $('table').addClass('table table-striped table-dark');

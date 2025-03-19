@@ -20,3 +20,54 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+body {
+    background-image: url('/images/Back main 2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+nav {
+    color: white;
+}
+
+main {
+    color: white;
+}
+
+a {
+    color: white;
+}
+
+li {
+    color: white;
+}
+
+.transparent-input {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+}
+
+    .transparent-input:focus {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+        box-shadow: none;
+    }
+
+    .transparent-input:hover {
+        background-color: transparent;
+        border: 2px solid white;
+        color: white;
+        box-shadow: none;
+    }
+
+    .transparent-input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+nav .navbar-nav li a {
+    color: white !important;
+}

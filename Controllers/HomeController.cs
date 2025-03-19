@@ -14,7 +14,12 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var movies = db.Movies.Take(3).ToList(); // Берем 3 ближайших фильма
+        // Получаем 3 ближайших фильма, которые еще не вышли
+        var movies = db.Movies
+            .Where(m => m.DateTime.HasValue && m.DateTime > DateTime.Now) // фильтрация по дате
+            .OrderBy(m => m.DateTime) // сортировка по времени
+            .Take(3) // берем первые 3
+            .ToList();
         return View(movies);
     }
 
