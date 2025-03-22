@@ -41,7 +41,8 @@ namespace TicketsCinema.Controllers
                 MovieId = movieId,
                 Title = movie.Title,
                 SelectedSeatIds = new List<int>(), // Этот список будет заполняться на странице
-                AvailableSeats = availableSeats
+                AvailableSeats = availableSeats,
+                AllSeats = _context.Seats.ToList()
             };
 
             return View(model);
@@ -51,26 +52,21 @@ namespace TicketsCinema.Controllers
         [HttpPost]
         public async Task<IActionResult> Book(BookSeatsViewModel model)
         {
-            //if (ModelState.IsValid)
-            //{
-                foreach (var seatId in model.SelectedSeatIds)
+            foreach (var seatId in model.SelectedSeatIds)
+            {
+                var bookedSeat = new BookedSeat
                 {
-                    var bookedSeat = new BookedSeat
-                    {
-                        UserId = _userManager.GetUserId(User), // Предполагаем, что пользователь аутентифицирован
-                        MovieId = model.MovieId,
-                        SeatId = seatId,
-                        PriceBooked = _context.Movies.Find(model.MovieId)?.Price ?? 0
-                    };
+                    UserId = _userManager.GetUserId(User), // Предполагаем, что пользователь аутентифицирован
+                    MovieId = model.MovieId,
+                    SeatId = seatId,
+                    PriceBooked = _context.Movies.Find(model.MovieId)?.Price ?? 0
+                };
 
-                    _context.BookedSeats.Add(bookedSeat);
-                }
+                _context.BookedSeats.Add(bookedSeat);
+            }
 
-                _context.SaveChanges();
-                return RedirectToAction("Index", "Home"); // Перенаправление пользователя после покупки
-            //}
-
-            return View(model);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Movies"); // Перенаправление пользователя после покупки
         }
     }
 }

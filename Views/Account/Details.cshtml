@@ -11,6 +11,7 @@
         <h5 class="card-title">@Model.UserName</h5>
         <p>Email: @Model.UserName</p>
         <p>Бюджет: @Model.Budget.ToString("C")</p>
+        <a href="@Url.Action("AddBudget", "Account")" class="btn btn-success">Пополнить бюджет</a>
     </div>
 </div>
 

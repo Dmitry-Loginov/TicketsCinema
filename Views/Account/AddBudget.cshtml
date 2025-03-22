@@ -1,0 +1,16 @@
+﻿@model TicketsCinema.ViewModels.AddBudgetViewModel
+
+@{
+    ViewData["Title"] = "Пополнение бюджета";
+}
+
+<h2>Пополнение бюджета</h2>
+
+<form asp-action="AddBudget" method="post">
+    <div class="form-group">
+        <label asp-for="Amount"></label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Пополнить</button>
+</form>

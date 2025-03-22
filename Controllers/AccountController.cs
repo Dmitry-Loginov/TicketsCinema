@@ -120,6 +120,32 @@ namespace TicketsCinema.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult AddBudget()
+        {
+            return View(new AddBudgetViewModel());
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddBudget(AddBudgetViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                user.Budget += model.Amount; // Увеличиваем бюджет
+
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync(); // Сохраняем изменения
+
+                return RedirectToAction("Details", new { id = user.Id }); // Перенаправляем на страницу деталей пользователя
+            }
+
+            return View(model);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
