@@ -1,0 +1,46 @@
+﻿@model TicketsCinema.Models.BookSeatsViewModel 
+@* @{ ViewData["Title"] = "Покупка билетов"; } *@
+
+<div class="container mt-5">
+    <h2 class="mb-4">Покупка билетов для фильма: @Model.Title</h2>
+
+    <div class="mb-4">
+        <h4>Схема рассадки</h4>
+        <img src="~/images/Scheme seats.png" alt="Схема мест" class="img-fluid" />
+    </div>
+
+    <form method="post" asp-action="Book">
+        <input type="hidden" name="MovieId" value="@Model.MovieId" />
+
+        <div class="accordion text-white bg-dark" id="seatsAccordion">
+            @for (int i = 0; i < Model.AvailableSeats.Count(); i += 14)
+            {
+                var groupSeats = Model.AvailableSeats.Skip(i).Take(14).ToList();
+                var groupId = i / 14;
+                <div class="accordion-item text-white bg-dark">
+                <h2 class="accordion-header" id="heading_@groupId">
+                <button class="accordion-button bg-secondary text-white @if(groupId != 0) { <text>collapsed</text> }" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_@groupId" aria-expanded="@((groupId == 0).ToString().ToLower())" aria-controls="collapse_@groupId">
+                      Ряд @groupId
+                 </button>
+                </h2>
+                <div id="collapse_@groupId" class="accordion-collapse collapse @if(groupId == 0) { <text>show</text> }" aria-labelledby="heading_@groupId" data-bs-parent="#seatsAccordion">
+                    <div class="accordion-body">
+                        <div class="row">
+                            @foreach (var seat in groupSeats) {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="SelectedSeatIds" value="@seat.Id" id="seat_@seat.Id" />
+                                <label class="form-check-label" for="seat_@seat.Id">
+                                    Место @seat.Id
+                                </label>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+        </div>
+        }
+</div>
+
+<button type="submit" class="btn btn-primary mt-3">Купить билеты</button>
+</form>
+</div>

@@ -10,6 +10,10 @@
                 @* <p class="card-text">@movie.ShortDesc</p> *@
                 <p><strong>Дата и время:</strong> @movie.DateTime?.ToString("g")</p>
                 <p><strong>Цена:</strong> @movie.Price.ToString("C")</p>
+                @if(User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Book", "BookSeats", new { movieId = movie.Id })" class="btn btn-primary">Купить билет</a>
+                }
                 <a href="@Url.Action("Details", "Movies", new { id = movie.Id })" class="btn btn-outline-secondary">Подробнее</a>
                 @if(User.IsInRole("admin"))
                 {

@@ -49,10 +49,10 @@ namespace TicketsCinema.Models
 
         private static Seat[] GenerateSeats()
         {
-            var seats = new Seat[200];
-            for (int i = 0; i < 200; i++)
+            var seats = new Seat[214];
+            for (int i = 0; i < 214; i++)
             {
-                seats[i] = new Seat { Id = i + 1 }; // Ид от 1 до 200
+                seats[i] = new Seat { Id = i + 1 }; // Ид от 1 до 214
             }
             return seats;
         }

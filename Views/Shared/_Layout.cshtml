@@ -20,8 +20,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" asp-controller="Schedule" asp-action="Index">Расписание</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-controller="Schedule" asp-action="Index">Купить билет</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Movies" asp-action="Index">Расписание</a></li>
                         @if (User.IsInRole("admin"))
                         {
                             <li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="Index">Список пользователей</a></li>
