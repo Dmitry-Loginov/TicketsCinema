@@ -99,18 +99,41 @@ namespace TicketsCinema.Controllers
 
             if (ModelState.IsValid)
             {
-                var movie = await _context.Movies.FindAsync(id);
+                var movie = await _context.Movies
+                    .Include(m => m.BookedSeats) // Загружаем связанные забронированные места
+                    .FirstOrDefaultAsync(m => m.Id == id);
+
                 if (movie == null) return NotFound();
 
+                // Проверяем наличие забронированных мест
+                if (movie.BookedSeats.Any())
+                {
+                    // Сообщаем, что изменение даты и времени недопустимо
+                    if (model.DateTime != movie.DateTime)
+                    {
+                        ModelState.AddModelError("DateTime", "Невозможно изменить дату и время фильма, так как уже куплены билеты.");
+                        // Сбрасываем изменения в DateTime
+                        model.DateTime = movie.DateTime; // Возвращаем старое значение даты и времени
+                        return View(model);
+                    }
+                }
+
+                // Обновляем данные фильма, кроме даты и времени, если это изменение недопустимо
                 movie.Title = model.Title;
                 movie.ShortDesc = model.ShortDesc;
                 movie.PreviewUrl = model.PreviewUrl;
-                movie.DateTime = model.DateTime;
                 movie.Price = model.Price;
+
+                // Дата и время будут обновлены только если изменения допустимы
+                if (!model.DateTime.Equals(movie.DateTime))
+                {
+                    movie.DateTime = model.DateTime;
+                }
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(model);
         }
 
