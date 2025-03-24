@@ -7,6 +7,10 @@
 <h2>Пополнение бюджета</h2>
 
 <form asp-action="AddBudget" method="post">
+    @if (User.IsInRole("admin"))
+    {
+        <input type="hidden" name="userId" value="@Model.UserId" />
+    }
     <div class="form-group">
         <label asp-for="Amount"></label>
         <input asp-for="Amount" class="form-control" />

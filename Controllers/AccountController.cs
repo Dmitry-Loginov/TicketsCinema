@@ -111,6 +111,7 @@ namespace TicketsCinema.Controllers
 
             var model = new DetailViewModel
             {
+                UserId = id,
                 UserName = user.UserName,
                 Budget = user.Budget,
                 PastTickets = pastTickets,
@@ -122,28 +123,85 @@ namespace TicketsCinema.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddBudget()
+        public async Task<IActionResult> AddBudget(string? userId = null)
         {
-            return View(new AddBudgetViewModel());
+            var model = new AddBudgetViewModel();
+
+            if (!string.IsNullOrEmpty(userId) && User.IsInRole("admin"))
+            {
+                model.UserId = userId; // Устанавливаем UserId для администратора
+            }
+
+            return View(model); // Возвращаем представление с моделью
         }
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddBudget(AddBudgetViewModel model)
+        public async Task<IActionResult> AddBudget(AddBudgetViewModel model, string? userId = null)
         {
-            if (ModelState.IsValid)
+
+            User userToUpdate;
+
+            if (string.IsNullOrEmpty(userId)) // Если userId не указан, пополняем бюджет текущего пользователя
             {
-                var user = await _userManager.GetUserAsync(User);
-                user.Budget += model.Amount; // Увеличиваем бюджет
+                userToUpdate = await _userManager.GetUserAsync(User);
+            }
+            else // Иначе, получаем пользователя по ID
+            {
+                if (!User.IsInRole("admin")) // Проверяем, является ли текущий пользователь администратором
+                {
+                    return Forbid(); // Запрещаем доступ
+                }
 
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync(); // Сохраняем изменения
-
-                return RedirectToAction("Details", new { id = user.Id }); // Перенаправляем на страницу деталей пользователя
+                userToUpdate = await _userManager.FindByIdAsync(userId);
+                if (userToUpdate == null)
+                {
+                    return NotFound(); // Если пользователь не найден
+                }
             }
 
-            return View(model);
+            // Пополнение бюджета
+            userToUpdate.Budget += model.Amount;
+
+            await _userManager.UpdateAsync(userToUpdate); // Обновляем пользователя в базе данных
+
+            return userId == null ? RedirectToAction("Details") : RedirectToAction("Details", new { id = userToUpdate.Id });
+
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CancelTicket(int ticketId, string? userId = null)
+        {
+            if (userId != null && !User.IsInRole("admin"))
+            {
+                return Forbid(); // Запрещаем доступ
+            }
+
+            var user = userId == null ? await _userManager.GetUserAsync(User) : await _userManager.FindByIdAsync(userId);
+            var bookedSeat = await _context.BookedSeats.FindAsync(ticketId);
+
+            if (bookedSeat == null || bookedSeat.UserId != user.Id)
+            {
+                return NotFound();
+            }
+
+            // Увеличиваем бюджет пользователя
+            user.Budget += bookedSeat.PriceBooked;
+
+            _context.BookedSeats.Remove(bookedSeat); // Удаляем билет
+            await _context.SaveChangesAsync(); // Сохраняем изменения
+
+            if(User.IsInRole("admin"))
+            {
+                return RedirectToAction("Details", new { id = user.Id }); // Перенаправляем на страницу деталей пользователя
+            }
+            else
+            {
+                return RedirectToAction("Details"); // Перенаправляем на страницу деталей пользователя
+            }
         }
 
         [HttpPost]

@@ -52,20 +52,38 @@ namespace TicketsCinema.Controllers
         [HttpPost]
         public async Task<IActionResult> Book(BookSeatsViewModel model)
         {
+            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.FindByIdAsync(userId);
+            var movie = await _context.Movies.FindAsync(model.MovieId);
+
+            if (movie == null)
+            {
+                return NotFound(); // Фильм не найден
+            }
+
+            // Проверяем, достаточно ли у пользователя средств
+            if (user.Budget < model.SelectedSeatIds.Count() * movie.Price)
+            {
+                TempData["ErrorMessage"] = "Недостаточно средств на счете.";
+                return RedirectToAction("Book", new { MovieId = model.MovieId }); // Перенаправляем обратно на страницу покупки билетов
+            }
+
             foreach (var seatId in model.SelectedSeatIds)
             {
                 var bookedSeat = new BookedSeat
                 {
-                    UserId = _userManager.GetUserId(User), // Предполагаем, что пользователь аутентифицирован
+                    UserId = userId,
                     MovieId = model.MovieId,
                     SeatId = seatId,
-                    PriceBooked = _context.Movies.Find(model.MovieId)?.Price ?? 0
+                    PriceBooked = movie.Price
                 };
 
                 _context.BookedSeats.Add(bookedSeat);
             }
 
-            _context.SaveChanges();
+            user.Budget -= model.SelectedSeatIds.Count() * movie.Price;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("Index", "Movies"); // Перенаправление пользователя после покупки
         }
     }

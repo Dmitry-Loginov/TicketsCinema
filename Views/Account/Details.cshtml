@@ -11,7 +11,7 @@
         <h5 class="card-title">@Model.UserName</h5>
         <p>Email: @Model.UserName</p>
         <p>Бюджет: @Model.Budget.ToString("C")</p>
-        <a href="@Url.Action("AddBudget", "Account")" class="btn btn-success">Пополнить бюджет</a>
+        <a asp-action="AddBudget" asp-controller="Account" asp-route-userId="@Model.UserId" class="btn btn-success">Пополнить бюджет</a>
     </div>
 </div>
 
@@ -57,6 +57,14 @@
                         @foreach (var ticket in Model.UpcomingTickets)
                         {
                             <li>@ticket.Movie.Title - @ticket.Movie.DateTime.Value.ToString("g")</li>
+                            <form asp-action="CancelTicket" asp-controller="Account" method="post" style="display:inline;">
+                                <input type="hidden" name="ticketId" value="@ticket.Id" />
+                                @if (Model.UserId != null) // Проверьте, не является ли UserId null
+                                {
+                                    <input type="hidden" name="userId" value="@Model.UserId" />
+                                }
+                                <button type="submit" class="btn btn-danger btn-sm">Отменить билет</button>
+                            </form>
                         }
                     </ul>
                 }

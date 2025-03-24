@@ -26,5 +26,8 @@
             </div>
         </div>
     </div>
-    <a href="@Url.Action("Edit", "Movies", new { id = Model.Id })" class="btn btn-secondary">Редактировать</a>
+    @if(User.IsInRole("admin"))
+    {
+        <a href="@Url.Action("Edit", "Movies", new { id = Model.Id })" class="btn btn-secondary">Редактировать</a>
+    }
 </div>
