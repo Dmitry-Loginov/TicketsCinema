@@ -1,0 +1,16 @@
+﻿@model TicketsCinema.Models.Movie
+
+<h2>Подтверждение удаления</h2>
+<div>
+    <h5>@Model.Title</h5>
+    <p>Вы действительно хотите удалить этот фильм?</p>
+    <p>
+        <strong>Дата и время:</strong> @Model.DateTime?.ToString("g")<br />
+        <strong>Цена:</strong> @Model.Price.ToString("C")<br />
+    </p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        @Html.ActionLink("Отмена", "Index", "Movies", null, new { @class = "btn btn-secondary" })
+    </form>
+</div>

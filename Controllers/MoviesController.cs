@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TicketsCinema.Models;
@@ -9,9 +10,11 @@ namespace TicketsCinema.Controllers
     public class MoviesController : Controller
     {
         private readonly ApplicationContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public MoviesController(ApplicationContext context)
+        public MoviesController(UserManager<User> userManager, ApplicationContext context)
         {
+            _userManager = userManager;
             _context = context;
         }
 
@@ -123,11 +126,24 @@ namespace TicketsCinema.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _context.Movies.Include(m => m.BookedSeats).FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null) return NotFound();
 
-            _context.Movies.Remove(movie);
-            await _context.SaveChangesAsync();
+            // Возврат средств пользователям
+            foreach (var bookedSeat in movie.BookedSeats)
+            {
+                var user = await _userManager.FindByIdAsync(bookedSeat.UserId);
+                if (user != null)
+                {
+                    // Здесь следует добавить вашу логику для возврата средств
+                    user.Budget += bookedSeat.PriceBooked; // Увеличиваем бюджет пользователя на стоимость билета
+                    await _userManager.UpdateAsync(user); // Обновляем пользователя в базе данных
+                }
+            }
+
+            _context.Movies.Remove(movie); // Удаляем фильм
+            await _context.SaveChangesAsync(); // Сохраняем изменения
+
             return RedirectToAction(nameof(Index));
         }
     }
