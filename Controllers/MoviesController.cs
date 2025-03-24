@@ -18,7 +18,15 @@ namespace TicketsCinema.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index() => View(_context.Movies.ToList());
+        public async Task<IActionResult> Index()
+        {
+            var currentTime = DateTime.Now; // Текущее время
+            var movies = await _context.Movies
+                .Where(movie => movie.DateTime > currentTime) // Фильтруем только фильмы с будущей датой и временем
+                .ToListAsync();
+
+            return View(movies);
+        }
 
         public async Task<IActionResult> Details(int id)
         {

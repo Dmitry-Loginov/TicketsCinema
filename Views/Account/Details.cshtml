@@ -31,7 +31,7 @@
                     <ul>
                         @foreach (var ticket in Model.PastTickets)
                         {
-                            <li>@ticket.Movie.Title - @ticket.Movie.DateTime.Value.ToString("g")</li>
+                            <li>@ticket.Movie.Title - @ticket.Movie.DateTime.Value.ToString("g") Номер места - @ticket.SeatId</li>
                         }
                     </ul>
                 }
@@ -56,7 +56,7 @@
                     <ul>
                         @foreach (var ticket in Model.UpcomingTickets)
                         {
-                            <li>@ticket.Movie.Title - @ticket.Movie.DateTime.Value.ToString("g")</li>
+                            <li>@ticket.Movie.Title - @ticket.Movie.DateTime.Value.ToString("g") Номер места - @ticket.SeatId</li>
                             <form asp-action="CancelTicket" asp-controller="Account" method="post" style="display:inline;">
                                 <input type="hidden" name="ticketId" value="@ticket.Id" />
                                 @if (Model.UserId != null) // Проверьте, не является ли UserId null
