@@ -28,6 +28,10 @@
             </div>
         </div>
     </div>
+    @if(User.Identity.IsAuthenticated)
+    {
+        <a href="@Url.Action("Book", "BookSeats", new { movieId = Model.Id })" class="btn btn-primary mb-2">Купить билет</a>
+    }
     @if(User.IsInRole("admin"))
     {
         <a href="@Url.Action("Edit", "Movies", new { id = Model.Id })" class="btn btn-secondary">Редактировать</a>

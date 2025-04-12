@@ -42,6 +42,7 @@ namespace TicketsCinema.Controllers
 
             var model = new MovieDetailViewModel
             {
+                Id = movie.Id,
                 Title = movie.Title,
                 PreviewUrl = movie.PreviewUrl,
                 ShortDesc = movie.ShortDesc,
