@@ -8,9 +8,7 @@
     <h2 class="text-white">Список фильмов</h2>
     @if (User.IsInRole("admin"))
     {
-       <a href="@Url.Action("Create", "Movies")" class="btn btn-outline-danger">Добавить новый фильм</a>
-       <br />
-       <br />
+       <a href="@Url.Action("Create", "Movies")" class="btn btn-primary mb-2">Добавить новый фильм</a>
     }
     <div class="row">
         @await Html.PartialAsync("_MoviesGrid")
