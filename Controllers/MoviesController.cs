@@ -23,6 +23,7 @@ namespace TicketsCinema.Controllers
             var currentTime = DateTime.Now; // Текущее время
             var movies = await _context.Movies
                 .Where(movie => movie.DateTime > currentTime) // Фильтруем только фильмы с будущей датой и временем
+                .OrderBy(movie => movie.DateTime)
                 .ToListAsync();
 
             return View(movies);

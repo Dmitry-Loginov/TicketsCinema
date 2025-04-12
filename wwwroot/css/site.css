@@ -50,24 +50,44 @@ li {
     color: white;
 }
 
-    .transparent-input:focus {
-        background-color: transparent;
-        border: 2px solid white;
-        color: white;
-        box-shadow: none;
-    }
+.transparent-input:focus {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    box-shadow: none;
+}
 
-    .transparent-input:hover {
-        background-color: transparent;
-        border: 2px solid white;
-        color: white;
-        box-shadow: none;
-    }
+.transparent-input:hover {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    box-shadow: none;
+}
 
-    .transparent-input::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+.transparent-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
     }
 
 nav .navbar-nav li a {
     color: white !important;
+}
+
+.card-text {
+    overflow-y: auto;
+    max-height: 150px;
+    margin-bottom: 0;
+}
+
+/* Стиль для полосы прокрутки (опционально) */
+.card-text::-webkit-scrollbar {
+    width: 8px; /* Ширина прокрутки */
+}
+
+.card-text::-webkit-scrollbar-thumb {
+    background: #888; /* Цвет ползунка */
+    border-radius: 10px; /* Скругление */
+}
+
+.card-text::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Цвет ползунка при наведении */
 }
