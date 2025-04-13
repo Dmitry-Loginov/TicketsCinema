@@ -5,7 +5,7 @@ namespace TicketsCinema.ViewModels
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "Name")]
+        [Display(Name = "Имя")]
         public string UserName { get; set; }
 
 

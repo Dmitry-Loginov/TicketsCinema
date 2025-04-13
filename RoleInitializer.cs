@@ -8,8 +8,8 @@ namespace CustomIdentityApp
     {
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            string adminName = "Dima";
-            string password = "123";
+            string adminName = "admin";
+            string password = "admin";
             if (await roleManager.FindByNameAsync("admin") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("admin"));
