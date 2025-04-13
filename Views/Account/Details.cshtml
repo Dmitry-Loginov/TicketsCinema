@@ -9,7 +9,6 @@
 <div class="card text-white bg-dark mb-3">
     <div class="card-body">
         <h5 class="card-title">@Model.UserName</h5>
-        <p>Email: @Model.UserName</p>
         <p>Бюджет: @Model.Budget.ToString("C")</p>
         <a asp-action="AddBudget" asp-controller="Account" asp-route-userId="@Model.UserId" class="btn btn-success">Пополнить бюджет</a>
     </div>

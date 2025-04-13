@@ -23,6 +23,9 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
     options.Password.RequireNonAlphanumeric = false; // Не требовать специальные символы
     options.Password.RequiredLength = 1; // Минимальная длина пароля
     options.Password.RequiredUniqueChars = 0; // Уникальные символы
+
+    // Разрешенные символы для имени пользователя
+    options.User.AllowedUserNameCharacters = null;
 })
     .AddEntityFrameworkStores<ApplicationContext>();
 
